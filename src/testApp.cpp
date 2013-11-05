@@ -10,6 +10,7 @@ void testApp::setup(){
   blurred.allocate(gridImage.width, gridImage.height, OF_IMAGE_GRAYSCALE);
   ofSetWindowShape(gridImage.width*2, gridImage.height);
 
+  /*
   unsigned char *originalPixels = gridImage.getPixels();
   unsigned char *blurredPixels = blurred.getPixels();
   int w = gridImage.width;
@@ -48,6 +49,7 @@ void testApp::setup(){
   
   free(gaussMatrix);
   blurred.update();
+   */
 
 }
 
@@ -83,44 +85,44 @@ float *testApp::getGaussianMatrix(int blurRadius, float sigma) {
 
 //--------------------------------------------------------------
 void testApp::update(){
-//  unsigned char *originalPixels = gridImage.getPixels();
-//  unsigned char *blurredPixels = blurred.getPixels();
-//  int w = gridImage.width;
-//  int h = gridImage.height;
-//  int blurRadius = 1;
-//  float sigma = 5;
-//  float *gaussMatrix = getGaussianMatrix(blurRadius, sigma);
-//  int dimension = blurRadius * 2 + 1;
-//  
-//  
-//  // print out the gauss matrix:
-//  //
-//  for (int i = 0; i < dimension; i++) {
-//    for (int j = 0; j < dimension; j++) {
-//      cout << gaussMatrix[dimension * i + j] << " ";
-//    }
-//    cout << endl;
-//  }
-//  cout << endl;
-//
-//  for (int i = 0; i < w; i++) {
-//    for (int j = 0; j < h; j++) {
-//      float newValue = 0;
-//      for (int inneri = 0; inneri < dimension; inneri++) {
-//        for (int innerj = 0; innerj < dimension; innerj++) {
-//          int matrixX = inneri - blurRadius;
-//          int matrixY = innerj - blurRadius;
-//          int x = ofClamp(i + matrixX, 0, w-1);
-//          int y = ofClamp(j + matrixY, 0, h-1);
-//          newValue += originalPixels[y*w + x] * gaussMatrix[matrixY*dimension + matrixX];
-//        }
-//      }
-//      blurredPixels[j*w + i] = newValue;
-//    }
-//  }
-//  
-//  free(gaussMatrix);
-//  blurred.update();
+  unsigned char *originalPixels = gridImage.getPixels();
+  unsigned char *blurredPixels = blurred.getPixels();
+  int w = gridImage.width;
+  int h = gridImage.height;
+  int blurRadius = 1;
+  float sigma = 5;
+  float *gaussMatrix = getGaussianMatrix(blurRadius, sigma);
+  int dimension = blurRadius * 2 + 1;
+  
+  
+  // print out the gauss matrix:
+  //
+  for (int i = 0; i < dimension; i++) {
+    for (int j = 0; j < dimension; j++) {
+      cout << gaussMatrix[dimension * i + j] << " ";
+    }
+    cout << endl;
+  }
+  cout << endl;
+
+  for (int i = 0; i < w; i++) {
+    for (int j = 0; j < h; j++) {
+      float newValue = 0;
+      for (int inneri = 0; inneri < dimension; inneri++) {
+        for (int innerj = 0; innerj < dimension; innerj++) {
+          int matrixX = inneri - blurRadius;
+          int matrixY = innerj - blurRadius;
+          int x = ofClamp(i + matrixX, 0, w-1);
+          int y = ofClamp(j + matrixY, 0, h-1);
+          newValue += originalPixels[y*w + x] * gaussMatrix[matrixY*dimension + matrixX];
+        }
+      }
+      blurredPixels[j*w + i] = newValue;
+    }
+  }
+  
+  free(gaussMatrix);
+  blurred.update();
 
 }
 
